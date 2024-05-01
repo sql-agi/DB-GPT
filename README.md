@@ -1,1 +1,1 @@
-# DB-GPT
+# nlp2sql
