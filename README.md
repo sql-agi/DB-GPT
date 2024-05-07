@@ -15,8 +15,8 @@
     <a href="https://github.com/sql-agi/DB-GPT/issues">
       <img alt="Open Issues" src="https://img.shields.io/github/issues-raw/sql-agi/DB-GPT" />
     </a>
-    👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">WeChat</a>
   </p>
+ 👋 加入我们的 <a href="resources/WECHAT.md" target="_blank">WeChat</a>
 </div>
 
 ## Introduction
