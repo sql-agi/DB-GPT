@@ -57,9 +57,9 @@ python web_demo.py
 The program will run a web server and output the address. Open the output address in the browser to use it. The latest version of the demo has achieved a typewriter effect, greatly improving the speed experience. Note that due to slow network access in domestic Gradio, when 'demo. queue(). launch (share=True, inbrowser=True)' is enabled, all networks will be forwarded through the Gradio server, resulting in a significant decrease in the typewriter experience. The default startup method has now been changed to 'share=False'. If there is a need for public network access, it can be changed to 'share=True' startup.
 
 #### cli demo
-![cli-demo](resources/cli_01.png)
+![cli-demo](resources/cli_01.jpg)
 
-![cli-demo](resources/cli_02.png)
+![cli-demo](resources/cli_02.jpg)
 
 Run in the repository [cli_demo.py] (cli_demo.py):
 
@@ -90,7 +90,12 @@ The obtained return value is
     "reply": "你好！请问有什么可以帮助您的？"
 }
 ```
+## 联系我们
 
+### 项目交流群
+<img src="img/qr_code_group.jpg" alt="二维码" width="300" />
+
+🎉 Langchain-Chatchat 项目微信交流群，如果你也对本项目感兴趣，欢迎加入群聊参与讨论交流。
 
 
 ## 🤗 Reference project
