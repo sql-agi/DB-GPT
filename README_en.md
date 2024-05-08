@@ -95,7 +95,9 @@ The obtained return value is
 ```
 ## 未来计划
 🔥🔥🔥 Front end UI interface：We are committed to developing better front-end UI interfaces, further supporting a wider range of databases and LLMs (including open-source big models), to enhance user experience and system flexibility.
+
 🔥🔥🔥Backend: We will further conduct in-depth testing on more complex CRUD scenarios, adding functions such as distinguishing (switching) environments and setting role permissions to ensure the accuracy and stability of LLM operations.
+
 🔥🔥🔥Summary: We hope to provide more user experience and feedback, and we will further optimize our products based on user feedback. We also hope that interested partners can join our open source team.
 
 ## contact us
