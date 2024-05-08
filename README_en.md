@@ -43,7 +43,9 @@ pip install -r requirements.txt
 ```
 
 Configure .env files such as templates .env_tample
+
 The main configuration includes three attributes: OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_URL
+
 🔥🔥🔥 I strongly recommend that everyone use the official API_KEY. After testing, some intermediate keys do not support good results
 
 ### Web & CLi

@@ -43,7 +43,9 @@ pip install -r requirements.txt
 ```
 
 配置.env文件，可以参考 templates.env_tample
+
 主要配置包括三个属性：OPENAI_API_KEY、OPENAI_PI_BASE、MYSQL_URL
+
 🔥🔥🔥强烈建议大家用官方的API_KEY 经过测试有些中转的key支持的效果并不好
 
 ### Web & CLi
