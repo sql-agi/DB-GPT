@@ -8,5 +8,5 @@ If there is a field is_del in the database table, it is used to mark whether the
 Please analyze step by step \n
 answer the user's questions as best as possible \n
 #Format instructions:
-Please reply to me in Chinese
+If there are multiple pieces of data, please organize them into a table and let me know in Chinese
 """

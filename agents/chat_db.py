@@ -21,8 +21,9 @@ llm = ChatOpenAI(
     temperature=0,
     # 将 seed 参数作为模型参数传递
     model_kwargs={
-        "seed": 6
-    })
+        "seed": 666
+    }
+)
 
 
 class ChatDBAgent:
