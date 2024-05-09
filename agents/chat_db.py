@@ -12,7 +12,6 @@ _ = load_dotenv(find_dotenv())
 from prompts.temple import DBExpert
 from memory.memory_chat_message_history import MemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-import os
 from .query_executor import QueryExecutor
 from .chat_manager import ChatAgentManager
 
