@@ -1,5 +1,8 @@
 # DB-GPT:Natural language management database, replacing traditional enterprise web management backend interface
 
+<p align="center">
+  <img src="./img/logo.jpg" width="100%" />
+</p> 
 
 <div align="center">
   <p>
