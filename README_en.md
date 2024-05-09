@@ -1,6 +1,6 @@
 # DB-GPT: Managing databases using natural language, completely changing the traditional web management backend interface
 
-
+<p align="center">   <img src="./img/logo.jpg" width="75%" /> </p>
 
 <div align="center">
   <p>
@@ -8,7 +8,7 @@
         <img alt="stars" src="https://img.shields.io/github/stars/sql-agi" />
     </a>
     <a href="https://github.com/sql-agi/DB-GPT">
-        <img alt="forks" src="https://img.shields.io/github/forks/sql-agi/db-gpt"width="75%" />
+        <img alt="forks" src="https://img.shields.io/github/forks/sql-agi/db-gpt" />
     </a>
     <a href="https://opensource.org/licenses/MIT">
       <img alt="License: MIT" src="https://img.shields.io/github/license/sql-agi/db-gpt" />
