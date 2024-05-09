@@ -3,7 +3,6 @@ from langfuse.callback import CallbackHandler
 class CallbackHandler:
     """
     创建并返回一个 CallbackHandler 实例。
-
     此方法为类方法，用于初始化并返回一个 CallbackHandler 对象，配置了必要的安全凭据和连接信息。这个回调处理器用于处理来自特定主机的回调请求，常用于处理异步事件或集成第三方服务时的安全通信。
 
     参数:
