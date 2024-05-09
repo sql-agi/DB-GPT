@@ -6,10 +6,8 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from langchain_openai import ChatOpenAI
 # 加载环境变量
 from dotenv import load_dotenv, find_dotenv
-
 _ = load_dotenv(find_dotenv())
 
-from prompts.temple import DBExpert
 from memory.memory_chat_message_history import MemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from .query_executor import QueryExecutor
