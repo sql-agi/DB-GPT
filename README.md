@@ -1,8 +1,7 @@
-# DB-GPT: 使用自然语言管理数据库，彻底改变传统的web管理后端界面
 <p align="center">
-  <img src="./img/db_gpt_logo.jpg" width="100%" />
+  <img src="./img/db_gpt_logo.jpg" width="60%" />
 </p>
-
+# DB-GPT: 使用自然语言管理数据库，彻底改变传统的web管理后端界面
 <div align="center">
   <p>
     <a href="https://github.com/sql-agi/DB-GPT">
