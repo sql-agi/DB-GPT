@@ -1,4 +1,4 @@
-# DB-GPT: 使用自然语言管理数据库，彻底改变传统的web管理后端界面
+# DB-GPT:自然语言管理数据库，替代传统企业的web管理后端界面
 
 <p align="center" style="height: 500px;"> <!-- 您可以根据需要调整这个高度值 -->
   <img src="./img/db_gpt_logo.jpg" width="100%" height="60%" />
