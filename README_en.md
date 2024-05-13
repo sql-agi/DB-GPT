@@ -25,11 +25,11 @@
 
 
 ## Introduction
-🤖 DB-GPT is an open-source data application development framework aimed at utilizing Large Language Model (LLM) technology to interact with databases through natural language, replacing traditional web management backend. 
+🤖  DB-GPT is an open-source data application development framework aimed at utilizing Large Language Model (LLM) technology to interact with databases through natural language, replacing traditional web management backend. 
 
-🌐 At present, we only have access to query permissions. In order to meet more complex business requirements, including the Create, Read, Update, and Delete (CRUD) functionality, we are currently undergoing internal testing and we look forward to bringing more surprises to everyone in the future.
+🌐  At present, we only have access to query permissions. In order to meet more complex business requirements, including the Create, Read, Update, and Delete (CRUD) functionality, we are currently undergoing internal testing and we look forward to bringing more surprises to everyone in the future.
 
-🚀 In the era of Data 3.0, our products are committed to utilizing model and database technologies to enable enterprises and developers to build custom applications with less code. Enable developers to focus more on complex C-end business and replace traditional web management backend systems.
+🚀  In the era of Data 3.0, our products are committed to utilizing model and database technologies to enable enterprises and developers to build custom applications with less code. Enable developers to focus more on complex C-end business and replace traditional web management backend systems.
 
 ## 快速上手
 Find a directory where the project is stored, and then execute the following command
