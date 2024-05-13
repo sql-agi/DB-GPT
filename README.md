@@ -1,4 +1,5 @@
-# DB-GPT:通过自然语言管理数据库，替代传统企业的web管理后台界面
+# DB-GPT:自然语言管理数据库，替代传统企业的web管理后端界面
+
 
 <p align="center">
   <img src="./img/logo.jpg" width="75%" />

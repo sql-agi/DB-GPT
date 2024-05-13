@@ -1,4 +1,4 @@
-# DB-GPT:Using natural language to manage databases, replacing traditional enterprise web management backend interfaces
+# DB-GPT: Managing databases using natural language, completely changing the traditional web management backend interface
 
 <p align="center">   <img src="./img/logo.jpg" width="75%" /> </p>
 
