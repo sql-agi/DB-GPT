@@ -2,7 +2,7 @@
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from web.app.routes import chat_db_route
+from web.app.routes import database_route
 
 app = FastAPI()
 
@@ -16,8 +16,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(chat_db_route.router)
+app.include_router(database_route.router)
 
 if __name__ == '__main__':
-    uvicorn.run("api:app", host='127.0.0.1', port=8000, log_level="info")
+    uvicorn.run("main:app", host='127.0.0.1', port=8000, log_level="info")
     print("running")

@@ -2,7 +2,7 @@ import os
 from langchain_community.agent_toolkits import create_sql_agent
 # 从URI创建SQLDatabase实例
 # 这里的"../../../../../notebooks/Chinook.db"是数据库文件的相对路径
-from langchain.sql_database import SQLDatabase
+from langchain_community.utilities import SQLDatabase
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from prompts.temple import DBExpert
 from langchain.agents.agent import AgentExecutor

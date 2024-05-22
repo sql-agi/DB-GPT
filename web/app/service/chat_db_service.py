@@ -1,11 +1,11 @@
-from fastapi import Request, HTTPException
+from fastapi import HTTPException
 from agents import ChatDBAgent
 
 
-class DBGptService:
+class ChatDBService:
 
     @classmethod
-    def   db_gpt(cls, input: str) -> str:
+    def chat_db(cls, input: str) -> str:
         """
         处理给定输入字符串，通过聊天数据库代理生成回复。
 
@@ -19,7 +19,7 @@ class DBGptService:
             HTTPException: 如果在处理输入或生成回复的过程中发生异常，将返回状态码为500的HTTP异常，并包含异常的详细信息。
         """
         try:
-            reply = ChatDBAgent.db_gpt(input)
+            reply = ChatDBAgent.chat_db(input)
             return reply
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

@@ -1,16 +1,10 @@
-from langchain_community.agent_toolkits import create_sql_agent
-# 从URI创建SQLDatabase实例
-# 这里的"../../../../../notebooks/Chinook.db"是数据库文件的相对路径
-from langchain.sql_database import SQLDatabase
-from langchain_community.agent_toolkits import SQLDatabaseToolkit
+
 from langchain_openai import ChatOpenAI
 # 加载环境变量
 from dotenv import load_dotenv, find_dotenv
 _ = load_dotenv(find_dotenv())
 
-from memory.memory_chat_message_history import MemoryChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
-from .query_executor import QueryExecutor
 from .chat_manager import ChatAgentManager
 
 llm = ChatOpenAI(
@@ -39,7 +33,7 @@ class ChatDBAgent:
         return chat_manager.execute_and_manage()
 
     @classmethod
-    def db_gpt(cls, input: str) -> str:
+    def chat_db(cls, input: str) -> str:
         """
         处理输入字符串，并通过聊天代理生成响应。
         此方法利用 ChatAgentManager 来执行查询并管理聊天历史，然后调用聊天代理
