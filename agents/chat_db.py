@@ -19,7 +19,7 @@ llm = ChatOpenAI(
 
 class ChatDBAgent:
     @classmethod
-    def chat_db(cls) -> RunnableWithMessageHistory:
+    def db_gpt(cls) -> RunnableWithMessageHistory:
         """
          创建一个聊天管理器实例，并执行查询及管理聊天历史。
 

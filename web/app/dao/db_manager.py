@@ -5,7 +5,7 @@ from typing import Dict, Any, List
 class DBManager:
 
     def __init__(self):
-        self.connection = pymysql.connect(host='localhost',
+        self.connection = pymysql.connect(host='mysql',
                                           user='root',
                                           password='jiayuan',
                                           database='db-gpt',
