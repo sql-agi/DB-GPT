@@ -19,25 +19,25 @@ services:
       timeout: 5s
       retries: 3
 
-  fastapi:
+  gradio:
     build:
       context: .
-      dockerfile: Dockerfile
-    container_name: fastapi_app
+      dockerfile: docker/Dockerfile  # 指定 Dockerfile 的相对路径
+    container_name: gradio_app
     ports:
-      - "8000:8000"
+      - "7860:7860"
     environment:
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
-      - MYSQL_USER=root
-      - MYSQL_PASSWORD=jiayuan
-      - MYSQL_DATABASE=db-gpt
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     depends_on:
       mysql:
         condition: service_healthy
     networks:
       - app_network
-    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "python", "main.py"]
+    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "python", "web_demo.py"]
 
 volumes:
   mysql_data:
