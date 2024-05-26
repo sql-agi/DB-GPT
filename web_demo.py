@@ -22,4 +22,4 @@ gr.ChatInterface(
     title="CHAT_DB",
     description="Ask DB_BOT any question",
     theme="soft"
-    ).launch()
+    ).launch(server_name="0.0.0.0", server_port=7860)

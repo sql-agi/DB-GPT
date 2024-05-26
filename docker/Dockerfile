@@ -12,9 +12,7 @@ RUN apt-get update && apt-get install -y \
     netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
-# 复制wait-for-it.sh脚本到容器中
-COPY wait-for-it.sh /app/wait-for-it.sh
-RUN chmod +x /app/wait-for-it.sh
+
 
 
 # 仅复制requirements.txt文件到容器中

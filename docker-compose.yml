@@ -5,12 +5,13 @@ services:
     image: mysql:8.0
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: jiayuan
-      MYSQL_DATABASE: db-gpt
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./deploy/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app_network
     healthcheck:
@@ -37,7 +38,7 @@ services:
         condition: service_healthy
     networks:
       - app_network
-    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "python", "web_demo.py"]
+    command: ["python", "web_demo.py"]
 
 volumes:
   mysql_data:
