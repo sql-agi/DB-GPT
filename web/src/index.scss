@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind utilities;
+.chat-title-item:hover {
+  .chat-title-item-action {
+    display: block;
+  }
+}
+.list-item-text-overflow{
+    &>span{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        word-break: keep-all;
+    }
+}
