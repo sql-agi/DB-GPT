@@ -15,6 +15,7 @@ export class DatabaseService {
         this.databaseList.set(value);
       });
   }
+  /** 请求数据库连接列表 */
   requestList() {
     useEffect(() => {
       this.#requestList();

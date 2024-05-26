@@ -1,4 +1,4 @@
-import { DialogTitle } from '@mui/material';
+import { DialogTitle, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -26,17 +26,20 @@ export function DatabaseEdit(inputs: { data: any; setDialogOpen: (value: boolean
   } = useForm<Inputs>({ defaultValues: inputs.data });
   let service = injector.get(DatabaseService);
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    service
-      .saveData({ ...data, database_type: inputs.data.database_type, id: inputs.data.id })
-      .then(() => {
-        inputs.setDialogOpen(false);
-      });
+    service.saveData({ ...data, database_type: inputs.data.database_type, id: inputs.data.id }).then(() => {
+      inputs.setDialogOpen(false);
+    });
   };
   // 既然演示就先不做验证,反正只有开发者操作,
   // false/true部分为本地数据库和远程数据库的参数,也是先放着,反正演示
   return (
     <div className="">
-      <DialogTitle>{inputs.data.id?'编辑':'新增'}{'数据库连接'}</DialogTitle>
+      <DialogTitle>
+        {inputs.data.id ? '编辑' : '新增'}
+        {'数据库连接'}
+      </DialogTitle>
+      <Divider></Divider>
+
       <form onSubmit={handleSubmit(onSubmit)} className=" mt-2">
         <DialogContent>
           <div className="flex flex-col gap-4 w-[500px]">
@@ -58,6 +61,8 @@ export function DatabaseEdit(inputs: { data: any; setDialogOpen: (value: boolean
             <TextField {...register('remark', { required: true })} label="备注" multiline />
           </div>
         </DialogContent>
+        <Divider></Divider>
+
         <DialogActions>
           <Button variant="contained" type="submit">
             提交

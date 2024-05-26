@@ -11,9 +11,9 @@ export function Sidebar() {
   return (
     <>
       <div className="flex flex-col gap-4 m-4 w-[240px]">
-        <Link to={'/'}>
-          <Button variant="contained" startIcon={<AddIcon />}>
-            创建绘画
+        <Link to={'/'} >
+          <Button variant="contained" startIcon={<AddIcon />} className='w-full'>
+            创建会话
           </Button>
         </Link>
         <div className="flex-1">
