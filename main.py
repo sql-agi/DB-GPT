@@ -7,7 +7,7 @@ from web.app.routes import database_route
 app = FastAPI()
 
 # 将origins设置为前端服务器的地址和端口
-origins = ["http://localhost:5730"]
+origins = ["http://localhost:5173"]
 
 app.add_middleware(
     CORSMiddleware,

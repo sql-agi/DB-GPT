@@ -12,6 +12,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { DatabaseService } from '../service/database.service';
+import { useSignal } from '../service/signal/use-signal';
+import { dbMapper } from './const';
+import Avatar from '@mui/material/Avatar';
 export function UserChat(item: any) {
   return (
     <>
@@ -41,9 +45,10 @@ export function Chat() {
   // todo 根据mode/id/模型/数据库请求数据
   let list = chatService.requestHistory(data);
   let modelList = chatService.getModelList();
-  let databaseList = chatService.getDatabaseList();
   // todo 切换模型和数据库后是重载还是接着?
-
+  let databaseService = injector.get(DatabaseService);
+  databaseService.requestList();
+  let databaseList = useSignal(databaseService.databaseList);
   const {
     register,
     handleSubmit,
@@ -67,9 +72,25 @@ export function Chat() {
           <FormControl>
             <InputLabel>选择数据库连接</InputLabel>
 
-            <Select className="w-[200px]" label="选择数据库连接">
+            <Select
+              className="w-[200px]"
+              label="选择数据库连接"
+              renderValue={(value: any) => {
+                let item = databaseList.find((item) => item.id === value);
+                return (
+                  <div className="flex gap-4 items-center">
+                    <div>{item.database_name}</div>
+                  </div>
+                );
+              }}
+            >
               {databaseList.map((item) => (
-                <MenuItem value={item.label}>{item.label}</MenuItem>
+                <MenuItem value={item.id}>
+                  <div className="flex gap-4 items-center">
+                    <Avatar src={(dbMapper as any)[item.database_type].icon}></Avatar>
+                    <div>{item.database_name}</div>
+                  </div>
+                </MenuItem>
               ))}
             </Select>
           </FormControl>

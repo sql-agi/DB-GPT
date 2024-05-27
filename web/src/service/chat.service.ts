@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Signal } from 'signal-polyfill';
-import { effect } from './effect';
+import { effect } from './signal/effect';
 import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source';
 
 interface DataFormat {
