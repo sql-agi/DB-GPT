@@ -19,7 +19,7 @@ llm = ChatOpenAI(
 
 class ChatDBAgent:
     @classmethod
-    def db_gpt(cls) -> RunnableWithMessageHistory:
+    def chat_db(cls) -> RunnableWithMessageHistory:
         """
          创建一个聊天管理器实例，并执行查询及管理聊天历史。
 
@@ -33,7 +33,7 @@ class ChatDBAgent:
         return chat_manager.execute_and_manage()
 
     @classmethod
-    def chat_db(cls, input: str) -> str:
+    def db_gpt(cls, input: str) -> str:
         """
         处理输入字符串，并通过聊天代理生成响应。
         此方法利用 ChatAgentManager 来执行查询并管理聊天历史，然后调用聊天代理
