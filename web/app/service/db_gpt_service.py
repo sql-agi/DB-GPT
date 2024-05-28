@@ -1,11 +1,11 @@
-from fastapi import Request, HTTPException
+from fastapi import HTTPException
 from agents import ChatDBAgent
 
 
 class DBGptService:
 
     @classmethod
-    def  db_gpt(cls, input: str) -> str:
+    async def db_gpt(cls, input: str) -> str:
         """
         处理给定输入字符串，通过聊天数据库代理生成回复。
 

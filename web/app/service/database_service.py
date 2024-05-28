@@ -1,16 +1,9 @@
 from typing import Dict, Any, List
-from web.app.dao import DBManager
-
+from web.app.utils import DBUtil
 
 class DatabaseService:
 
-    db_manager = None
 
-    @classmethod
-    def get_db_manager(cls):
-        if cls.db_manager is None:
-            cls.db_manager = DBManager()
-        return cls.db_manager
 
     @classmethod
     async def save_database(cls, data: Dict[str, Any]) -> Any:
@@ -23,7 +16,7 @@ class DatabaseService:
         Returns:
             int: The ID of the newly saved database connection.
         """
-        db_manager = cls.get_db_manager()
+        db_manager = DBUtil.get_db_manager()
         existing_database = db_manager.get_database_by_name(data['database_name'])
         if existing_database:
             return "Database name already exists"
@@ -41,7 +34,7 @@ class DatabaseService:
         Returns:
             bool: True if the deletion was successful, False otherwise.
         """
-        db_manager = cls.get_db_manager()
+        db_manager = DBUtil.get_db_manager()
         success = db_manager.delete_database(connection_id)
         return success
 
@@ -57,7 +50,7 @@ class DatabaseService:
         Returns:
             int: The ID of the updated database connection.
         """
-        db_manager = cls.get_db_manager()
+        db_manager = DBUtil.get_db_manager()
         updated_id = db_manager.update_database(connection_id, data)
         return updated_id
 
@@ -69,7 +62,7 @@ class DatabaseService:
         Returns:
             List[Dict[str, str]]: A list of dictionaries containing the id, database_name, and remark of all database connections.
         """
-        db_manager = cls.get_db_manager()
+        db_manager = DBUtil.get_db_manager()
         return db_manager.get_all_databases()
 
     @classmethod
@@ -83,5 +76,5 @@ class DatabaseService:
         Returns:
             Dict[str, Any]: A dictionary containing the details of the database connection.
         """
-        db_manager = cls.get_db_manager()
+        db_manager = DBUtil.get_db_manager()
         return db_manager.get_database_by_id(connection_id)

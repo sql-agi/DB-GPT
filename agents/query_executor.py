@@ -7,9 +7,15 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from prompts.temple import DBExpert
 from langchain.agents.agent import AgentExecutor
 class QueryExecutor:
-    def __init__(self, llm):
+    def __init__(self, llm, db_uri=None):
+        """
+        初始化 QueryExecutor 实例。
+        参数:
+            llm: 语言模型实例
+            db_uri: 数据库 URI，如果未提供，则从环境变量 MYSQL_URL 中获取
+        """
         self.llm = llm
-        self.db = SQLDatabase.from_uri(os.getenv("MYSQL_URL"))
+        self.db = SQLDatabase.from_uri(db_uri or os.getenv("MYSQL_URL"))
         self.toolkit = SQLDatabaseToolkit(db=self.db, llm=self.llm)
 
     def execute_query(self) -> AgentExecutor:

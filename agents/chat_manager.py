@@ -4,8 +4,14 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 
 
 class ChatAgentManager:
-    def __init__(self, llm):
-        self.query_executor = QueryExecutor(llm=llm)
+    def __init__(self, llm, db_uri=None):
+        """
+        初始化 ChatAgentManager 实例。
+        参数:
+            llm: 语言模型实例
+            db_uri: 数据库 URI，可选。如果未提供，则从环境变量 MYSQL_URL 中获取
+        """
+        self.query_executor = QueryExecutor(llm=llm, db_uri=db_uri)
 
     def execute_and_manage(self) -> RunnableWithMessageHistory:
         """

@@ -1,10 +1,10 @@
-
 from fastapi import APIRouter, Request, HTTPException
 from web.app.service import DBGptService
 from typing import Dict
 
 # 获取配置中的logger对象
 from configs import log_config
+
 logger = log_config.logger
 
 router = APIRouter(
@@ -30,7 +30,7 @@ class DBGptRoute:
          """
         try:
             body = await request.json()
-            reply = DBGptService.db_gpt(body.get('input'))
+            reply = await DBGptService.db_gpt(body.get('input'))
             return {"reply": reply}
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))

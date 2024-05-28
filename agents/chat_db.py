@@ -1,7 +1,7 @@
-
 from langchain_openai import ChatOpenAI
 # 加载环境变量
 from dotenv import load_dotenv, find_dotenv
+
 _ = load_dotenv(find_dotenv())
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -19,7 +19,7 @@ llm = ChatOpenAI(
 
 class ChatDBAgent:
     @classmethod
-    def chat_db(cls) -> RunnableWithMessageHistory:
+    def cli_chat_db(cls) -> RunnableWithMessageHistory:
         """
          创建一个聊天管理器实例，并执行查询及管理聊天历史。
 
@@ -32,6 +32,25 @@ class ChatDBAgent:
         chat_manager = ChatAgentManager(llm=llm)
         return chat_manager.execute_and_manage()
 
+    @classmethod
+    def chat_db(cls, database_uri: str, model: str, input: str) -> RunnableWithMessageHistory:
+        """
+         创建一个聊天管理器实例，并执行查询及管理聊天历史。
+
+         这是一个类方法，用于初始化和管理聊天代理，该代理执行必要的语言模型逻辑和聊天历史的管理。
+
+         返回:
+             RunnableWithMessageHistory: 一个执行聊天操作并管理历史记录的对象。
+         """
+        # 执行查询并管理聊天历史
+        chat_manager = ChatAgentManager(llm, database_uri)
+        agent_with_chat_history = chat_manager.execute_and_manage()
+        reply = agent_with_chat_history.invoke(
+            {"input": input},
+            config={"configurable": {"session_id": "dbgpt-session"}},
+        )
+        output = reply['output']
+        return output
     @classmethod
     def db_gpt(cls, input: str) -> str:
         """
