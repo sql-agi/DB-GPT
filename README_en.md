@@ -44,7 +44,7 @@ Then switch your environment to db gpt and execute the following command
 pip install -r requirements.txt
 ```
 
-Configure .env files such as templates .env_tample
+Configure .env files such as templates .env_temple
 
 The main configuration includes three attributes: OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_URL
 
