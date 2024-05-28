@@ -48,7 +48,7 @@ conda activate db-gpt
 pip install -r requirements.txt
 ```
 
-配置.env文件，可以参考 templates.env_tample
+配置.env文件，可以参考 templates.env_temple
 
 主要配置包括三个属性：OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_URL
 
