@@ -18,4 +18,4 @@ class DatabaseUtils:
         user = os.getenv("MYSQL_USER")
         password = os.getenv("MYSQL_PASSWORD")
         database = os.getenv("MYSQL_DATABASE")
-        return f"mysql://{user}:{password}@{host}/{database}"
+        return f"mysql://{user}:{password}@{host}:{port}/{database}"

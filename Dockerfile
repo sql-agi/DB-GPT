@@ -20,10 +20,10 @@ COPY requirements.txt .
 
 # 安装Python依赖
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt
+    && pip install --no-cache-dir -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-# 复制应用程序代码到容器中
-COPY . /app
+# 复制整个应用程序代码到容器中
+COPY . .
 
 # 暴露FastAPI运行的端口
 EXPOSE 8000
