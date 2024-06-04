@@ -159,3 +159,5 @@ target
 *.iml
 logs
 .DS_store
+.docker/mysql
+.node_modules

@@ -1,33 +1,32 @@
-version: '3'
+version: '3.8'
 
 services:
   mysql:
     image: mysql:8.0.33
     container_name: mysql_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: 'ls1234qwer'
+      MYSQL_DATABASE: db_gpt
     ports:
-      - ${MYSQL_PORT}:3306
+      - "3306:3306"
     volumes:
       - ./mysql/mysql_data:/var/lib/mysql/
       - ./mysql/conf/:/etc/mysql/conf.d/
-      #- ./deploy/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
-      --default-authentication-plugin=mysql_native_password
+      --default-authentication-plugin=caching_sha2_password
       --character-set-server=utf8mb4
       --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true
       --lower_case_table_names=1
     networks:
-      app_network:
-        ipv4_address: 172.19.0.2
+      - app_network
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   gradio:
     build:
@@ -37,19 +36,20 @@ services:
     ports:
       - "7860:7860"
     environment:
-      - MYSQL_HOST=${MYSQL_HOST}
-      - MYSQL_PORT=${MYSQL_PORT}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_HOST=mysql
+      - MYSQL_PORT=3306
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=ls1234qwer
+      - MYSQL_DATABASE=db_gpt
+    depends_on:
+      mysql:
+        condition: service_healthy
     networks:
-      app_network:
-        ipv4_address: 172.19.0.3
-    command: ["python", "web_demo.py"]
+      - app_network
+    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "python", "web_demo.py"]
+
+volumes:
+  mysql_data:
 
 networks:
   app_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.19.0.0/16

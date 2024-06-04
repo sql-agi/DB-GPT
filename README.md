@@ -36,15 +36,27 @@
 🚀  在Data 3.0时代，我们的产品致力于利用模型和数据库技术，使企业和开发人员能够用更少的代码构建自定义应用程序。让开发人员更专注于复杂的C端业务从而取代传统的web管理后台系统。
 
 ## 快速上手
-找一个项目存储的目录，然后执行以下命令
+找一个项目存储的目录，将项目克隆下来，克隆命令如下：
 ```shell
 git clone https://github.com/sql-agi/DB-GPT
-cd DB-GPT
+```
+### Docker deploy
+#### 首先，配置.env文件，可以参考 templates.env_temple；
+#### 只需要配置OPENAI_API_KEY、OPENAI_API_BASE这两个属性即可（建议使用官方的API_KEY）；
+#### 然后切换到docker目录下，参考docker目录下的README.md，切换命令如下：
+```shell
+cd DB-GPT/docker
+```
+#### 最后执行README.md的命令即可；
+
+注意：如果你需要自定义数据库表结构和表数据，只需要更改根目录下/docker/sql/init.sql 文件即可
+
+
+### Web & CLi
+首先将用conda创建新环境并将环境切换到db-gpt，命令如下：
+```shell
 conda create --name db-gpt python=3.9
 conda activate db-gpt
-```
-然后将环境切换到db-gpt并执行以下命令
-```shell
 pip install -r requirements.txt
 ```
 
@@ -54,10 +66,10 @@ pip install -r requirements.txt
 
 🔥🔥🔥强烈建议大家用官方的API_KEY 经过测试有些中转的key支持的效果并不好
 
-### Web & CLi
-我们提供了一种基于 [Gradio]（ https://gradio.app ）网络版演示和命令行演示如下：
 
 #### web demo
+我们提供了一种基于 [Gradio]（ https://gradio.app ）网络版演示和命令行演示如下：
+
 ![web-demo](img/web.jpg)
 
 然后在存储库中运行[web_demo.py]：
