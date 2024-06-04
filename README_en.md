@@ -25,6 +25,7 @@
 
 
 ## Introduction
+
 🤖  DB-GPT is an open-source data application development framework aimed at utilizing Large Language Model (LLM) technology to interact with databases through natural language, replacing traditional web management backend. 
 
 🌐  At present, we only have access to query permissions. In order to meet more complex business requirements, including the Create, Read, Update, and Delete (CRUD) functionality, we are currently undergoing internal testing and we look forward to bringing more surprises to everyone in the future.
@@ -32,28 +33,44 @@
 🚀  In the era of Data 3.0, our products are committed to utilizing model and database technologies to enable enterprises and developers to build custom applications with less code. Enable developers to focus more on complex C-end business and replace traditional web management backend systems.
 
 ## 快速上手
-Find a directory where the project is stored, and then execute the following command
+Find a directory where the project is stored and clone it. The cloning command is as follows:
 ```shell
 git clone https://github.com/sql-agi/DB-GPT
-cd DB-GPT
+```
+### Docker deploy
+Firstly, configure the .env file, which can refer to templates .env_temple;
+
+You only need to configure the OPENAI-API_KEY and OPENAI-API_BASE attributes (it is recommended to use the official API_KEY);
+
+Then switch to the Docker directory and refer to README.md in the Docker directory. The switching command is as follows:
+
+```Shell
+cd DB-GPT/docker
+```
+Finally, execute the command README.md;
+
+Note: If you need to customize the database table structure and table data, simply change the/Docker/SQL/init. SQL file in the root directory
+
+### Web & CLi
+
+Firstly, create a new environment using Conda and switch the environment to db-gpt. The command is as follows:
+
+```Shell
 conda create --name db-gpt python=3.9
 conda activate db-gpt
-```
-Then switch your environment to db gpt and execute the following command
-```shell
 pip install -r requirements.txt
 ```
 
-Configure .env files such as templates .env_temple
+Configure the .env file, you can refer to templates .env_temple
 
-The main configuration includes three attributes: OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_URL
+The main configuration includes these attributes: OPENAI-API_KEY OPENAI_API_BASE、MYSQL_HOST、MYSQL_PORT、MYSQL_USER、MYSQL_PASSWORD、MYSQL_DATABASE
 
 🔥🔥🔥 I strongly recommend that everyone use the official API_KEY. After testing, some intermediate keys do not support good results
 
-### Web & CLi
+#### web demo
+
 We provide a method based on [Gradio]（ https://gradio.app ）The web version of the demo and a command-line demo:
 
-#### web demo
 ![web-demo](img/web.jpg)
 
 Then run [web_demo.py] in the repository:

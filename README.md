@@ -41,13 +41,16 @@
 git clone https://github.com/sql-agi/DB-GPT
 ```
 ### Docker deploy
-#### 首先，配置.env文件，可以参考 templates.env_temple；
-#### 只需要配置OPENAI_API_KEY、OPENAI_API_BASE这两个属性即可（建议使用官方的API_KEY）；
-#### 然后切换到docker目录下，参考docker目录下的README.md，切换命令如下：
+首先，配置.env文件，可以参考 templates.env_temple；
+
+只需要配置OPENAI_API_KEY、OPENAI_API_BASE这两个属性即可（建议使用官方的API_KEY）；
+
+然后切换到docker目录下，参考docker目录下的README.md，切换命令如下：
+
 ```shell
 cd DB-GPT/docker
 ```
-#### 最后执行README.md的命令即可；
+最后执行README.md的命令即可；
 
 注意：如果你需要自定义数据库表结构和表数据，只需要更改根目录下/docker/sql/init.sql 文件即可
 
@@ -62,7 +65,7 @@ pip install -r requirements.txt
 
 配置.env文件，可以参考 templates.env_temple
 
-主要配置包括三个属性：OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_URL
+主要配置包括这几个属性：OPENAI_API_KEY、OPENAI_API_BASE、MYSQL_HOST、MYSQL_PORT、MYSQL_USER、MYSQL_PASSWORD、MYSQL_DATABASE
 
 🔥🔥🔥强烈建议大家用官方的API_KEY 经过测试有些中转的key支持的效果并不好
 
