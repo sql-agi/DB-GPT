@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from web.app.models import ChatDBRequest
-from typing import Dict
+from typing import List, Dict, Any
 from web.app.service import ChatDBService
 
 # 获取配置中的logger对象
@@ -16,7 +16,7 @@ router = APIRouter(
 
 
 @router.post("/db")
-async def chat_db(chat_db_request: ChatDBRequest) -> Dict[str, str]:
+async def chat_db(chat_db_request: ChatDBRequest) -> str:
     """
      处理通过 POST 请求发送到 '/db' 路径的数据，并返回聊天生成的回复。
      此异步方法接收一个 JSON 格式的请求体，从中提取 'database_id'，'model' 和 'input' 字段，
@@ -29,8 +29,46 @@ async def chat_db(chat_db_request: ChatDBRequest) -> Dict[str, str]:
          HTTPException: 如果在处理请求或生成回复过程中发生任何异常，将返回500错误代码及异常详情。
      """
     try:
-
         return await ChatDBService.chat_db(chat_db_request)
     except Exception as e:
         logger.error(f"Error in chat_db: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/sessions", response_model=List[Dict[str, Any]])
+async def fetch_all_chat_sessions() -> List[Dict[str, Any]]:
+    """
+    Retrieve all active chat sessions.
+    """
+    try:
+        sessions = await ChatDBService.fetch_all_chat_sessions()
+        return sessions
+    except Exception as e:
+        logger.error(f"Error fetching chat sessions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/sessions/{session_id}", response_model=bool)
+async def delete_chat_session(session_id: int) -> bool:
+    """
+    Delete a chat session and its related chat history.
+    """
+    try:
+        result = await ChatDBService.delete_chat_session(session_id)
+        return result
+    except Exception as e:
+        logger.error(f"Error deleting chat session: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/history/{session_id}", response_model=List[Dict[str, Any]])
+async def fetch_chat_history_by_session(session_id: int) -> List[Dict[str, Any]]:
+    """
+    Fetch chat history for a given session ID.
+    """
+    try:
+        history = await ChatDBService.fetch_chat_history_by_session(session_id)
+        return history
+    except Exception as e:
+        logger.error(f"Error fetching chat history: {e}")
         raise HTTPException(status_code=500, detail=str(e))

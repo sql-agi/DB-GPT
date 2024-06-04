@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev \
     pkg-config \
     netcat-openbsd \
+    tzdata \
     && rm -rf /var/lib/apt/lists/*
 
 # 复制wait-for-it.sh脚本到容器中
