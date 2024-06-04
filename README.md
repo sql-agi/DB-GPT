@@ -52,8 +52,7 @@ cd DB-GPT/docker
 ```
 最后执行README.md的命令即可；
 
-注意：如果你需要自定义数据库表结构和表数据，只需要更改根目录下/docker/sql/init.sql 文件即可
-
+注意：如果你需要自定义数据库表结构和表数据，只需要更改根目录下/docker/sql/init.sql 文件即可。
 
 ### Web & CLi
 首先将用conda创建新环境并将环境切换到db-gpt，命令如下：
