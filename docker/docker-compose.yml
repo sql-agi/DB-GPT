@@ -28,6 +28,32 @@ services:
       timeout: 10s
       retries: 5
 
+  mysql_secondary:
+    image: mysql:8.0.33
+    container_name: mysql_secondary_db
+    environment:
+      MYSQL_ROOT_PASSWORD: 'ls1234qwer'
+      MYSQL_DATABASE: shop_db
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql_secondary/mysql_data:/var/lib/mysql/
+      - ./mysql_secondary/conf/:/etc/mysql/conf.d/
+      - ./deploy/sql/init_secondary.sql:/docker-entrypoint-initdb.d/init.sql
+    command:
+      --default-authentication-plugin=caching_sha2_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    networks:
+      - app_network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   fastapi:
     build:
       context: ..
@@ -41,15 +67,23 @@ services:
       - MYSQL_USER=root
       - MYSQL_PASSWORD=ls1234qwer
       - MYSQL_DATABASE=db_gpt
+      - MYSQL_SECONDARY_HOST=mysql_secondary
+      - MYSQL_SECONDARY_PORT=3306
+      - MYSQL_SECONDARY_USER=root
+      - MYSQL_SECONDARY_PASSWORD=ls1234qwer
+      - MYSQL_SECONDARY_DATABASE=shop_db
     depends_on:
       mysql:
         condition: service_healthy
+      mysql_secondary:
+        condition: service_healthy
     networks:
       - app_network
-    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "python", "main.py"]
+    command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "/app/wait-for-it.sh", "mysql_secondary", "3306", "--", "python", "main.py"]
 
 volumes:
   mysql_data:
+  mysql_secondary_data:
 
 networks:
   app_network:
