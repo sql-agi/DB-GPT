@@ -34,9 +34,9 @@ class ChatDBService:
 
         user_input = chat_db_request.input
         session_id = chat_db_request.session_id
-        chat_history = db_manager.get_chat_history_by_session_id(session_id)
-        if not chat_history:
-            return "该聊天已被删除，请重新创建聊天！"
+        # chat_history = db_manager.get_chat_history_by_session_id(session_id)
+        # if not chat_history:
+        #     return "该聊天已被删除，请重新创建聊天！"
         db_manager.insert_chat_history(session_id, "user", user_input)
 
         database_id = chat_db_request.database_id
