@@ -1,71 +1,66 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Signal } from 'signal-polyfill';
 import { effect } from './signal/effect';
-import { EventStreamContentType, fetchEventSource } from '@microsoft/fetch-event-source';
+import { inject } from 'static-injector';
+import { URL_PREFIX_TOKEN } from './token';
+import axios from 'axios';
 
 interface DataFormat {
-  type: string;
+  id: number;
   title: string;
-  id: string;
+  user_id: number;
+  user_name: string;
+}
+interface ChatOptions {
+  database_id: number;
+  model: string;
+  input: string;
+  session_id: number;
+}
+export interface ChatHistory {
+  message_content: string;
+  message_type: string;
+  session_id: number;
 }
 export class ChatService {
-  #value = new Signal.State<DataFormat[]>([]);
-  mockList: DataFormat[] = [
-    { type: 'db', title: '伪数据测试123456', id: '1' },
-    { type: 'db', title: '伪数据测试123456', id: '2' },
-    { type: 'db', title: '伪数据测试123456', id: '3' },
-    { type: 'db', title: '伪数据测试123456', id: '4' },
-    { type: 'db', title: '伪数据测试123456', id: '5' },
-    { type: 'db', title: '伪数据测试123456', id: '6' },
-  ];
+  sessionList = new Signal.State<DataFormat[]>([]);
+  sessionHistory = new Signal.State<ChatHistory[]>([]);
+  #requestList() {
+    axios.get(`${this.#urlPrefix}/chat/sessions`).then((result) => {
+      this.sessionList.set(result.data);
+    });
+  }
   initList() {
-    useEffect(() => {
-      // 模拟
-      setTimeout(() => {
-        this.#value.set(this.mockList);
-      }, 1000);
-    }, []);
+    this.#requestList();
   }
-  getList() {
-    let [value, setValue] = useState(this.#value.get());
-    useEffect(() => {
-      effect(() => {
-        setValue(this.#value.get());
-      });
-    }, []);
-    return value;
+  #requestHistory(id: number) {
+    axios.get(`${this.#urlPrefix}/chat/history/${id}`).then((result) => {
+      this.sessionHistory.set(result.data);
+    });
   }
-  requestHistory(options:any) {
-    let [message, setMessage] = useState<any[]>([
-      { role: 'user', context: '你好吗' },
-      { role: 'system', context: '# 我很好' },
-    ]);
-
-    return message;
+  getHistory(id: number) {
+    this.#requestHistory(id);
   }
-  requestChat(options:any) {
-    let [message, setMessage] = useState<any>(undefined);
-    // todo
-    return useEffect(() => {
-      // fetchEventSource('', {
-      //   onmessage: (e) => {
-      //     console.log(e);
-      //     setMessage(e.data);
-      //   },
-      // });
-      // setMessage()
-    }, []);
-    return message;
+  async deleteItem(id: number) {
+    await axios.delete(`${this.#urlPrefix}/chat/sessions/${id}`);
+    this.#requestList();
   }
 
   getModelList() {
     // todo 接口
-    let [value, setValue] = useState<any[]>([{ label: 'chatglm3' }]);
+    let [value, setValue] = useState([{ label: 'gpt-4', value: 'gpt-4' }]);
     return value;
   }
-  getDatabaseList() {
-    // todo 接口
-    let [value, setValue] = useState<any[]>([{ label: 'postgresql' }]);
-    return value;
+
+  readonly #urlPrefix = inject(URL_PREFIX_TOKEN);
+
+  async chat(options: ChatOptions) {
+    return axios.post(`${this.#urlPrefix}/chat/db`, options);
+  }
+  saveSession(title: string) {
+    return axios.post(`${this.#urlPrefix}/chat/save-session`, { input: title });
+  }
+  getSessionList() {
+    return axios.post(`${this.#urlPrefix}/chat/sessions`);
   }
 }
