@@ -9,7 +9,7 @@ db_manager = DBUtil.get_db_manager()
 class ChatDBService:
 
     @classmethod
-    async def save_session(user_prompt: UserPrompt) -> int:
+    async def save_session(cls, user_prompt: UserPrompt) -> int:
         """
         保存会话，返回session_id
         """
