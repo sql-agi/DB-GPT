@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException
-from web.app.models import ChatDBRequest
+from web.app.models import ChatDBRequest, UserPrompt
 from typing import List, Dict, Any
 from web.app.service import ChatDBService
 
@@ -14,6 +14,16 @@ router = APIRouter(
     responses={404: {"description": "404 Not Found"}},
 )
 
+@router.post("/save-session")
+async def save_session(user_prompt: UserPrompt) -> int:
+    """
+    保存会话，返回session_id
+    """
+    try:
+        return await ChatDBService.save_session(user_prompt)
+    except Exception as e:
+        logger.error(f"Error in chat_db: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/db")
 async def chat_db(chat_db_request: ChatDBRequest) -> str:

@@ -1,5 +1,5 @@
 from agents import ChatDBAgent
-from web.app.models import ChatDBRequest
+from web.app.models import ChatDBRequest, UserPrompt
 from web.app.utils import DBUtil
 from typing import Dict, Any, List
 
@@ -7,6 +7,15 @@ db_manager = DBUtil.get_db_manager()
 
 
 class ChatDBService:
+
+    @classmethod
+    async def save_session(user_prompt: UserPrompt) -> int:
+        """
+        保存会话，返回session_id
+        """
+        user_input = user_prompt.input
+        session_id = db_manager.insert_chat_session(user_input)
+        return session_id
 
     @classmethod
     async def chat_db(cls, chat_db_request: ChatDBRequest) -> str:
@@ -24,13 +33,9 @@ class ChatDBService:
         """
 
         user_input = chat_db_request.input
-        is_new_session = chat_db_request.is_new_session
         session_id = chat_db_request.session_id
-        if is_new_session:
-            session_id = db_manager.insert_chat_session(user_input)
-
         chat_history = db_manager.get_chat_history_by_session_id(session_id)
-        if not chat_history and not is_new_session:
+        if not chat_history:
             return "该聊天已被删除，请重新创建聊天！"
         db_manager.insert_chat_history(session_id, "user", user_input)
 
