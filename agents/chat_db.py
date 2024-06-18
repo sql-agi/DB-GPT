@@ -6,6 +6,9 @@ _ = load_dotenv(find_dotenv())
 
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from .chat_manager import ChatAgentManager
+from .db_executor import DBExecutor
+from web.app.models import ChatDBRequest
+
 
 llm = ChatOpenAI(
     model="gpt-4",
@@ -33,7 +36,7 @@ class ChatDBAgent:
         return chat_manager.execute_and_manage()
 
     @classmethod
-    def chat_db(cls, database_uri: str, model: str, input: str) -> RunnableWithMessageHistory:
+    def chat_db(cls, chat_db_request: ChatDBRequest, database_uri: str) -> str:
         """
          创建一个聊天管理器实例，并执行查询及管理聊天历史。
 
@@ -42,15 +45,23 @@ class ChatDBAgent:
          返回:
              RunnableWithMessageHistory: 一个执行聊天操作并管理历史记录的对象。
          """
-        # 执行查询并管理聊天历史
+        user_input = chat_db_request.input
+        session_id = chat_db_request.session_id
+        is_change = chat_db_request.is_change
         chat_manager = ChatAgentManager(llm, database_uri)
-        agent_with_chat_history = chat_manager.execute_and_manage()
+        agent_with_chat_history = chat_manager.create_chat_history(session_id, is_change)
         reply = agent_with_chat_history.invoke(
-            {"input": input},
+            {"input": user_input},
             config={"configurable": {"session_id": "dbgpt-session"}},
         )
+        print(reply)
         output = reply['output']
+        # db_executor = DBExecutor(llm=llm, db_uri=database_uri)
+        # sql_executor = db_executor.create_sql_executor(is_change)
+        # reply = sql_executor.invoke({"input": input})
+        # output = reply['output']
         return output
+
     @classmethod
     def db_gpt(cls, input: str) -> str:
         """

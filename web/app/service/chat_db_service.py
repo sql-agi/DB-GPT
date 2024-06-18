@@ -1,5 +1,5 @@
 from agents import ChatDBAgent
-from web.app.models import ChatDBRequest, UserPrompt
+from web.app.models import ChatDBRequest, SessionTitle
 from web.app.utils import DBUtil
 from typing import Dict, Any, List
 
@@ -9,12 +9,14 @@ db_manager = DBUtil.get_db_manager()
 class ChatDBService:
 
     @classmethod
-    async def save_session(cls, user_prompt: UserPrompt) -> int:
+    async def save_session(cls, session_title: SessionTitle) -> int:
         """
         保存会话，返回session_id
         """
-        user_input = user_prompt.input
-        session_id = db_manager.insert_chat_session(user_input)
+        user_input = session_title.input
+        database_id = session_title.database_id
+        model = session_title.model
+        session_id = db_manager.insert_chat_session(database_id, model, user_input)
         return session_id
 
     @classmethod
@@ -34,18 +36,20 @@ class ChatDBService:
 
         user_input = chat_db_request.input
         session_id = chat_db_request.session_id
-        # chat_history = db_manager.get_chat_history_by_session_id(session_id)
-        # if not chat_history:
-        #     return "该聊天已被删除，请重新创建聊天！"
-        db_manager.insert_chat_history(session_id, "user", user_input)
-
-        database_id = chat_db_request.database_id
+        is_change = chat_db_request.is_change
+        if is_change:
+            database_id = chat_db_request.database_id
+            model = chat_db_request.model
+        else:
+            session_info = db_manager.fetch_database_id_and_model(session_id)
+            database_id = session_info['database_id']
+            model = session_info['model']
+        db_manager.insert_chat_history(session_id, database_id, model, "user", user_input)
         db_info = db_manager.get_database_by_id(database_id)
         db_url = DBUtil.create_mysql_url(db_info)
-        model = chat_db_request.model
-        reply = ChatDBAgent.chat_db(db_url, model, user_input)
+        reply = ChatDBAgent.chat_db(chat_db_request, db_url)
         if reply:
-            db_manager.insert_chat_history(session_id, model, reply)
+            db_manager.insert_chat_history(session_id, database_id, model, model, reply)
             return reply
 
     @classmethod
