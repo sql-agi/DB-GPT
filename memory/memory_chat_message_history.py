@@ -2,6 +2,8 @@ from langchain.memory import ChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain.agents.agent import AgentExecutor
 
+dbgpt_history = ChatMessageHistory(session_id="dbgpt-session")
+
 
 class MemoryChatMessageHistory:
 
@@ -19,12 +21,12 @@ class MemoryChatMessageHistory:
                 在实际应用中，通常需要会话ID来跟踪和管理不同用户的聊天历史。这里虽然使用了简单的内存中聊天历史，
                 但结构设计上保留了使用会话ID的可能性，以便在更复杂的实现中使用。
             """
-        history = ChatMessageHistory(session_id="dbgpt-session")
+
         agent_with_chat_history = RunnableWithMessageHistory(
             agent_executor,
             # This is needed because in most real world scenarios, a session id is needed
             # It isn't really used here because we are using a simple in memory ChatMessageHistory
-            lambda session_id: history,
+            lambda session_id: dbgpt_history,
             input_messages_key="input",
             history_messages_key="history",
         )
