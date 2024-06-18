@@ -6,7 +6,8 @@ class DBManager:
 
     def __init__(self):
         self.connection = pymysql.connect(
-            host='mysql',
+            # host='mysql',
+            host='127.0.0.1',
             user='root',
             password='ls1234qwer',
             database='db_gpt',
@@ -153,6 +154,25 @@ class DBManager:
         params = (database_id, model, title)
         self.execute_query(query, params)
         return self.cursor.lastrowid
+
+    def update_chat_session(self, session_id: int, database_id: int, model: str) -> int:
+        """
+        更新指定会话的 database_id 和 model，并返回受影响的行数。
+        参数:
+            session_id: 会话的唯一 ID
+            database_id: 新的数据库唯一 ID
+            model: 新的大模型名称
+        返回:
+            受影响的行数
+        """
+        query = """
+        UPDATE chat_session
+        SET database_id = %s, model = %s, updated_time = CURRENT_TIMESTAMP
+        WHERE id = %s
+        """
+        params = (database_id, model, session_id)
+        affected_rows = self.execute_query(query, params)
+        return affected_rows
 
     def fetch_database_id_and_model(self, session_id: int) -> Optional[Dict[str, Any]]:
         """Fetches the database_id and model for a given session ID."""

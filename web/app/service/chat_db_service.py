@@ -40,6 +40,7 @@ class ChatDBService:
         if is_change:
             database_id = chat_db_request.database_id
             model = chat_db_request.model
+            db_manager.update_chat_session(session_id, database_id, model)
         else:
             session_info = db_manager.fetch_database_id_and_model(session_id)
             database_id = session_info['database_id']
