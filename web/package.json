@@ -23,6 +23,7 @@
     "react-icons": "^5.2.1",
     "react-markdown": "^9.0.1",
     "react-router-dom": "^6.23.1",
+    "remark-gfm": "^4.0.0",
     "signal-polyfill": "^0.1.1",
     "static-injector": "^5.0.1"
   },
