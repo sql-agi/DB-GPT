@@ -6,8 +6,8 @@ class DBManager:
 
     def __init__(self):
         self.connection = pymysql.connect(
-            # host='mysql',
-            host='127.0.0.1',
+            host='mysql',
+            # host='127.0.0.1',
             user='root',
             password='ls1234qwer',
             database='db_gpt',
