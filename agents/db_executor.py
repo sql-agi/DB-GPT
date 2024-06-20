@@ -8,6 +8,9 @@ from prompts.temple import DBExpert
 from langchain.agents.agent import AgentExecutor
 from langchain.memory import ChatMessageHistory
 from langchain.memory import ConversationBufferMemory
+from langchain.agents import create_openai_tools_agent
+
+history = ChatMessageHistory(session_id="db-session")
 
 
 class DBExecutor:
@@ -34,20 +37,21 @@ class DBExecutor:
             Agent: 配置好的 SQL 执行代理，具备执行查询的能力并能详细记录操作过程。
         """
         context = self.toolkit.get_context()
-        prompt = DBExpert.chat_prompt_message()
+        prompt = DBExpert.chat_db_message()
         prompt = prompt.partial(**context)
-        history = ChatMessageHistory(session_id="db-session")
-        # if is_change:
-        #     history.clear()
+        tools = self.toolkit.get_tools()
+        if is_change:
+            history.clear()
         memory = ConversationBufferMemory(
             memory_key="history", chat_memory=history, return_messages=True
         )
-        return create_sql_agent(
-            llm=self.llm,
-            toolkit=self.toolkit,
-            agent_type="openai-tools",
-            prompt=prompt,
+        agent = create_openai_tools_agent(
+            self.llm, tools, prompt)
+        agent_executor = AgentExecutor.from_agent_and_tools(
+            agent=agent,
+            tools=tools,
             verbose=True,
             handle_parsing_errors=True,
             memory=memory
         )
+        return agent_executor

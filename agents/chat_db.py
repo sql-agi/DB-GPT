@@ -21,6 +21,19 @@ llm = ChatOpenAI(
 
 
 class ChatDBAgent:
+
+    @classmethod
+    def create_sql_executor(cls) -> RunnableWithMessageHistory:
+        """
+         创建一个聊天管理器实例，并执行查询及管理聊天历史。
+
+         这是一个类方法，用于初始化和管理聊天代理，该代理执行必要的语言模型逻辑和聊天历史的管理。
+
+         返回:
+             RunnableWithMessageHistory: 一个执行聊天操作并管理历史记录的对象。
+         """
+        db_executor = DBExecutor(llm=llm)
+        return db_executor.create_sql_executor(False)
     @classmethod
     def cli_chat_db(cls) -> RunnableWithMessageHistory:
         """
