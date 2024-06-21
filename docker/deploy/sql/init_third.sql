@@ -52,7 +52,8 @@ CREATE TABLE IF NOT EXISTS `course_schedule` (
     `course_id` BIGINT UNSIGNED NOT NULL COMMENT '课程的唯一标识符',
     `teacher_id` BIGINT UNSIGNED NOT NULL COMMENT '教师的唯一标识符',
     `classroom` VARCHAR(64) NOT NULL COMMENT '教室',
-    `schedule_time` DATETIME NOT NULL COMMENT '课程时间',
+    `schedule_time` DATETIME NOT NULL COMMENT '课程开始时间',
+    `duration` INT UNSIGNED NOT NULL COMMENT '课程时长',
     `is_del` TINYINT DEFAULT '0' COMMENT '标记记录是否被删除，0为未删除，1为已删除',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录的创建时间',
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '记录的最后更新时间',
@@ -65,7 +66,9 @@ CREATE TABLE IF NOT EXISTS `grades` (
     `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '成绩的唯一标识符',
     `student_id` BIGINT UNSIGNED NOT NULL COMMENT '学生的唯一标识符',
     `course_id` BIGINT UNSIGNED NOT NULL COMMENT '课程的唯一标识符',
-    `grade` VARCHAR(2) NOT NULL COMMENT '综合成绩',
+    `grade` INT NOT NULL COMMENT '综合成绩',
+    `regular_grades` INT NOT NULL COMMENT '平时成绩',
+    `final_exam_scores` INT NOT NULL COMMENT '期末成绩',
     `date_recorded` DATE NOT NULL COMMENT '记录日期',
     `is_del` TINYINT DEFAULT '0' COMMENT '标记记录是否被删除，0为未删除，1为已删除',
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '记录的创建时间',
@@ -166,30 +169,30 @@ INSERT INTO `courses` (`id`, `course_name`, `description`, `credits`, `is_del`, 
 (10, '体育', '基础体育课程', 1, 0, NOW(), NOW());
 
 
-INSERT INTO `course_schedule` (`id`, `course_id`, `teacher_id`, `classroom`, `schedule_time`, `is_del`, `create_time`, `update_time`) VALUES
-(1, 1, 1, 'A101', '2023-09-01 08:00:00', 0, NOW(), NOW()),
-(2, 2, 2, 'B202', '2023-09-01 10:00:00', 0, NOW(), NOW()),
-(3, 3, 3, 'C303', '2023-09-01 13:00:00', 0, NOW(), NOW()),
-(4, 4, 4, 'D404', '2023-09-02 08:00:00', 0, NOW(), NOW()),
-(5, 5, 5, 'E505', '2023-09-02 10:00:00', 0, NOW(), NOW()),
-(6, 6, 6, 'F606', '2023-09-02 13:00:00', 0, NOW(), NOW()),
-(7, 7, 7, 'G707', '2023-09-03 08:00:00', 0, NOW(), NOW()),
-(8, 8, 8, 'H808', '2023-09-03 10:00:00', 0, NOW(), NOW()),
-(9, 9, 9, 'I909', '2023-09-03 13:00:00', 0, NOW(), NOW()),
-(10, 10, 10, 'J1010', '2023-09-04 08:00:00', 0, NOW(), NOW());
+INSERT INTO `course_schedule` (`id`, `course_id`, `teacher_id`, `classroom`, `schedule_time`,`duration` ,`is_del`, `create_time`, `update_time`) VALUES
+(1, 1, 1, 'A101', '2023-09-01 08:00:00',2, 0, NOW(), NOW()),
+(2, 2, 2, 'B202', '2023-09-01 10:00:00',2, 0, NOW(), NOW()),
+(3, 3, 3, 'C303', '2023-09-01 13:00:00',2, 0, NOW(), NOW()),
+(4, 4, 4, 'D404', '2023-09-02 08:00:00',2, 0, NOW(), NOW()),
+(5, 5, 5, 'E505', '2023-09-02 10:00:00',4, 0, NOW(), NOW()),
+(6, 6, 6, 'F606', '2023-09-02 13:00:00',2, 0, NOW(), NOW()),
+(7, 7, 7, 'G707', '2023-09-03 08:00:00',2, 0, NOW(), NOW()),
+(8, 8, 8, 'H808', '2023-09-03 10:00:00',2, 0, NOW(), NOW()),
+(9, 9, 9, 'I909', '2023-09-03 13:00:00',2, 0, NOW(), NOW()),
+(10, 10, 10, 'J1010', '2023-09-04 08:00:00',2, 0, NOW(), NOW());
 
 
-INSERT INTO `grades` (`id`, `student_id`, `course_id`, `grade`, `date_recorded`, `is_del`, `create_time`, `update_time`) VALUES
-(1, 1, 1, 'A', '2023-01-10', 0, NOW(), NOW()),
-(2, 2, 2, 'B', '2023-01-10', 0, NOW(), NOW()),
-(3, 3, 3, 'A', '2023-01-10', 0, NOW(), NOW()),
-(4, 4, 4, 'C', '2023-01-10', 0, NOW(), NOW()),
-(5, 5, 5, 'B', '2023-01-10', 0, NOW(), NOW()),
-(6, 6, 6, 'A', '2023-01-10', 0, NOW(), NOW()),
-(7, 7, 7, 'C', '2023-01-10', 0, NOW(), NOW()),
-(8, 8, 8, 'B', '2023-01-10', 0, NOW(), NOW()),
-(9, 9, 9, 'A', '2023-01-10', 0, NOW(), NOW()),
-(10, 10, 10, 'B', '2023-01-10', 0, NOW(), NOW());
+INSERT INTO `grades` (`id`, `student_id`, `course_id`, `grade`, `regular_grades`,`final_exam_scores`,`date_recorded`, `is_del`, `create_time`, `update_time`) VALUES
+(1, 1, 1, 98,99,96, '2023-01-10', 0, NOW(), NOW()),
+(2, 2, 2, 94,99,92, '2023-01-10', 0, NOW(), NOW()),
+(3, 3, 3, 76,62,89, '2023-01-10', 0, NOW(), NOW()),
+(4, 4, 4, 84,72,92, '2023-01-10', 0, NOW(), NOW()),
+(5, 5, 5, 82,74,93, '2023-01-10', 0, NOW(), NOW()),
+(6, 6, 6, 85,74,93, '2023-01-10', 0, NOW(), NOW()),
+(7, 7, 7, 89,83,98, '2023-01-10', 0, NOW(), NOW()),
+(8, 8, 8, 91,88,95, '2023-01-10', 0, NOW(), NOW()),
+(9, 9, 9, 62,45,99, '2023-01-10', 0, NOW(), NOW()),
+(10, 10, 10, 77,65,89, '2023-01-10', 0, NOW(), NOW());
 
 INSERT INTO `exams` (`id`, `course_id`, `exam_date`, `location`, `is_del`, `create_time`, `update_time`) VALUES
 (1, 1, '2023-12-01 09:00:00', 'A101', 0, NOW(), NOW()),
@@ -202,7 +205,6 @@ INSERT INTO `exams` (`id`, `course_id`, `exam_date`, `location`, `is_del`, `crea
 (8, 8, '2023-12-04 13:00:00', 'H808', 0, NOW(), NOW()),
 (9, 9, '2023-12-05 09:00:00', 'I909', 0, NOW(), NOW()),
 (10, 10, '2023-12-05 13:00:00', 'J1010', 0, NOW(), NOW());
-
 
 INSERT INTO `exam_results` (`id`, `exam_id`, `student_id`, `score`, `is_del`, `create_time`, `update_time`) VALUES
 (1, 1, 1, 95.5, 0, NOW(), NOW()),

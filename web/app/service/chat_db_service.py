@@ -59,7 +59,7 @@ class ChatDBService:
         Fetch all active chat sessions.
         :return: A list of dictionaries, each representing an active chat session.
         """
-        chat_sessions = db_manager.get_chat_sessions_by_user_id()
+        chat_sessions = db_manager.get_chat_session_by_user_id()
         return chat_sessions
 
     @classmethod
