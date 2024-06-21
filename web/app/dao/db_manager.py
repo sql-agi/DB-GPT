@@ -6,8 +6,8 @@ class DBManager:
 
     def __init__(self):
         self.connection = pymysql.connect(
-            host='mysql',
-            # host='127.0.0.1',
+            # host='mysql',
+            host='127.0.0.1',
             user='root',
             password='ls1234qwer',
             database='db_gpt',
@@ -205,7 +205,7 @@ class DBManager:
         """
         # 基础查询语句，只选取需要的字段，并仅包括未删除的会话
         query = """
-        SELECT id, user_id, user_name, title
+        SELECT id, user_id, user_name, title, database_id, model
         FROM chat_session
         WHERE is_del = 0
         """
