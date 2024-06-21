@@ -7,8 +7,7 @@ _ = load_dotenv(find_dotenv())
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from .chat_manager import ChatAgentManager
 from .db_executor import DBExecutor
-from web.app.models import ChatDBRequest
-
+from web.app.models import ChatDBRequest, AppBuilderRequest
 
 llm = ChatOpenAI(
     model="gpt-4",
@@ -34,6 +33,7 @@ class ChatDBAgent:
          """
         db_executor = DBExecutor(llm=llm)
         return db_executor.create_sql_executor(False)
+
     @classmethod
     def cli_chat_db(cls) -> RunnableWithMessageHistory:
         """
@@ -95,6 +95,27 @@ class ChatDBAgent:
         reply = agent_with_chat_history.invoke(
             {"input": input},
             config={"configurable": {"session_id": "dbgpt-session"}},
+        )
+        output = reply['output']
+        return output
+
+    @classmethod
+    def chat_db_by_app_builder(cls, app_builder_request: AppBuilderRequest) -> str:
+        """
+        处理输入字符串，并通过聊天代理生成响应。
+        此方法利用 ChatAgentManager 来执行查询并管理聊天历史，然后调用聊天代理
+        的 invoke 方法来处理输入，并生成输出。
+        Args:
+            input (str): 输入到聊天代理的字符串。
+
+        Returns:
+            str: 聊天代理处理后的输出结果。
+        该方法主要以接口的形式用户调用
+        """
+        db_executor = cls.create_sql_executor()
+        question = app_builder_request.input
+        reply = db_executor.invoke(
+            {"input": question},
         )
         output = reply['output']
         return output
