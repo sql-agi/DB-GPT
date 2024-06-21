@@ -8,7 +8,7 @@ from prompts.temple import DBExpert
 from langchain.agents.agent import AgentExecutor
 from langchain.memory import ChatMessageHistory
 from langchain.memory import ConversationBufferMemory
-from langchain.agents import create_openai_tools_agent
+from langchain.agents import create_openai_tools_agent, create_tool_calling_agent
 
 history = ChatMessageHistory(session_id="db-session")
 
@@ -45,7 +45,7 @@ class DBExecutor:
         memory = ConversationBufferMemory(
             memory_key="history", chat_memory=history, return_messages=True
         )
-        agent = create_openai_tools_agent(
+        agent = create_tool_calling_agent(
             self.llm, tools, prompt)
         agent_executor = AgentExecutor.from_agent_and_tools(
             agent=agent,
