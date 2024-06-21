@@ -5,10 +5,17 @@
     display: block;
   }
 }
-.list-item-text-overflow{
-    &>span{
-        text-overflow: ellipsis;
-        overflow: hidden;
-        word-break: keep-all;
-    }
+.list-item-text-overflow {
+  & > span {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: keep-all;
+  }
+}
+body {
+  scrollbar-color: transparent;
+
+}
+.custom-scrollbar {
+  scrollbar-width: thin !important;
 }

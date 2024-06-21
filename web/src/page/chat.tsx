@@ -14,11 +14,12 @@ import SendIcon from '@mui/icons-material/Send';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { DatabaseService } from '../service/database.service';
 import { useSignal } from '../service/signal/use-signal';
-import { dbMapper } from './const';
+import { DATABASE_OBJECT } from './const';
 import Avatar from '@mui/material/Avatar';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import remarkGfm from 'remark-gfm';
+import { OutlinedInput, TextField } from '@mui/material';
 
 export function UserChat(item: any) {
   return (
@@ -65,37 +66,45 @@ export function Chat() {
     handleSubmit,
     watch,
     formState: { errors },
+    reset,
   } = useForm<any>();
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    let id = params.id!;
-    if (params.id === 'new') {
-      await chatService.saveSession(data.input).then((v) => {
-        id = v.data;
-      });
+  let [modelValue, setModelChange] = useState(modelList[0]?.value || '');
+  let [databaseValue, setDatabaseValue] = useState(databaseList[0]?.id || '');
+  const onSubmit: SubmitHandler<any> = useCallback(
+    async (data) => {
+      let id = params.id!;
+      if (params.id === 'new') {
+        await chatService.saveSession({ input: data.input, model: modelValue, database_id: databaseValue }).then((v) => {
+          id = v.data;
+        });
+        chatService.initList()
+      }
 
       chatService.sessionHistory.set([
         ...chatService.sessionHistory.get(),
         { session_id: +id, message_content: data.input, message_type: 'user' },
       ]);
-    }
-    chatService.chat({ model: modelValue, database_id: databaseValue, input: data.input, session_id: +id }).then((result) => {
-      if (params.id) {
-        navigate(`../${id}`, { relative: 'path', replace: true });
-      }
-      chatService.sessionHistory.set([
-        ...chatService.sessionHistory.get(),
-        { session_id: +id, message_content: result.data, message_type: modelValue },
-      ]);
-    });
-  };
-  let [modelValue, setModelChange] = useState(modelList[0]?.value || '');
-  let [databaseValue, setDatabaseValue] = useState(databaseList[0]?.id || '');
+      reset();
+
+      chatService.chat({ model: modelValue, database_id: databaseValue, input: data.input, session_id: +id }).then((result) => {
+        if (params.id) {
+          navigate(`../${id}`, { relative: 'path', replace: true });
+        }
+        chatService.sessionHistory.set([
+          ...chatService.sessionHistory.get(),
+          { session_id: +id, message_content: result.data, message_type: modelValue },
+        ]);
+      });
+    },
+    [modelValue, databaseValue, params, reset]
+  );
+
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="flex flex-col h-full">
-        <div className="flex gap-4 justify-center">
+      <div className="flex flex-col h-full gap-4 overflow-hidden">
+        <div className="flex gap-4 justify-center mt-2">
           <FormControl>
             <InputLabel>选择模型</InputLabel>
             <Select
@@ -143,7 +152,7 @@ export function Chat() {
                   databaseList.map((item, i) => (
                     <MenuItem value={item.id} key={i}>
                       <div className="flex gap-4 items-center">
-                        <Avatar src={(dbMapper as any)[item.database_type].icon}></Avatar>
+                        <Avatar src={(DATABASE_OBJECT as any)[item.database_type].icon}></Avatar>
                         <div>{item.database_name}</div>
                       </div>
                     </MenuItem>
@@ -153,7 +162,7 @@ export function Chat() {
             </Select>
           </FormControl>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 overflow-auto custom-scrollbar ">
           {historyList.map((item, index) => {
             return (
               <div key={index}>{item.message_type === 'user' ? <UserChat {...item}></UserChat> : <SystemChat {...item}></SystemChat>}</div>
@@ -161,10 +170,11 @@ export function Chat() {
           })}
         </div>
         <div>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FormControl variant="standard" className="w-full">
-              <Input
+          <form onSubmit={handleSubmit(onSubmit)} className="px-[20%]">
+            <FormControl variant="outlined" className="w-full">
+              <OutlinedInput
                 {...register('input', { required: true })}
+                placeholder="请输入一条消息"
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton type="submit">

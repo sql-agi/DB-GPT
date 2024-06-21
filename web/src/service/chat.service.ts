@@ -12,10 +12,11 @@ interface DataFormat {
   user_name: string;
 }
 interface ChatOptions {
-  database_id: number;
-  model: string;
+  database_id?: number;
+  model?: string;
   input: string;
   session_id: number;
+  is_change?: boolean;
 }
 export interface ChatHistory {
   message_content: string;
@@ -55,10 +56,15 @@ export class ChatService {
   readonly #urlPrefix = inject(URL_PREFIX_TOKEN);
 
   async chat(options: ChatOptions) {
-    return axios.post(`${this.#urlPrefix}/chat/db`, options);
+    let is_change=!!options.model && !!options.database_id
+    if (!is_change) {
+      delete options.model
+      delete options.database_id
+    }
+    return axios.post(`${this.#urlPrefix}/chat/db`, { ...options, is_change });
   }
-  saveSession(title: string) {
-    return axios.post(`${this.#urlPrefix}/chat/save-session`, { input: title });
+  saveSession(options: { input: string; database_id: number; model: string }) {
+    return axios.post(`${this.#urlPrefix}/chat/save-session`, options);
   }
   getSessionList() {
     return axios.post(`${this.#urlPrefix}/chat/sessions`);
