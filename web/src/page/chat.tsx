@@ -1,13 +1,12 @@
-import { Form, useLoaderData, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { injector } from '../service/provider';
-import { ChatHistory, ChatService } from '../service/chat.service';
+import { ChatService } from '../service/chat.service';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ReactMarkdown from 'react-markdown';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import Input from '@mui/material/Input';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import SendIcon from '@mui/icons-material/Send';
@@ -19,7 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import remarkGfm from 'remark-gfm';
-import { OutlinedInput, TextField } from '@mui/material';
+import { OutlinedInput } from '@mui/material';
 
 export function UserChat(item: any) {
   return (

@@ -1,6 +1,5 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Signal } from 'signal-polyfill';
-import { effect } from './signal/effect';
 import { inject } from 'static-injector';
 import { URL_PREFIX_TOKEN } from './token';
 import axios from 'axios';
@@ -27,7 +26,7 @@ export class ChatService {
   sessionList = new Signal.State<DataFormat[]>([]);
   sessionHistory = new Signal.State<ChatHistory[]>([]);
   #requestList() {
-    axios.get(`${this.#urlPrefix}/chat/sessions`).then((result) => {
+    axios.get(`${this.#urlPrefix}chat/sessions`).then((result) => {
       this.sessionList.set(result.data);
     });
   }
@@ -35,7 +34,7 @@ export class ChatService {
     this.#requestList();
   }
   #requestHistory(id: number) {
-    axios.get(`${this.#urlPrefix}/chat/history/${id}`).then((result) => {
+    axios.get(`${this.#urlPrefix}chat/history/${id}`).then((result) => {
       this.sessionHistory.set(result.data);
     });
   }
@@ -43,7 +42,7 @@ export class ChatService {
     this.#requestHistory(id);
   }
   async deleteItem(id: number) {
-    await axios.delete(`${this.#urlPrefix}/chat/sessions/${id}`);
+    await axios.delete(`${this.#urlPrefix}chat/sessions/${id}`);
     this.#requestList();
   }
 
@@ -61,12 +60,12 @@ export class ChatService {
       delete options.model
       delete options.database_id
     }
-    return axios.post(`${this.#urlPrefix}/chat/db`, { ...options, is_change });
+    return axios.post(`${this.#urlPrefix}chat/db`, { ...options, is_change });
   }
   saveSession(options: { input: string; database_id: number; model: string }) {
-    return axios.post(`${this.#urlPrefix}/chat/save-session`, options);
+    return axios.post(`${this.#urlPrefix}chat/save-session`, options);
   }
   getSessionList() {
-    return axios.post(`${this.#urlPrefix}/chat/sessions`);
+    return axios.post(`${this.#urlPrefix}chat/sessions`);
   }
 }

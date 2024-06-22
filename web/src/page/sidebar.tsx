@@ -20,7 +20,7 @@ export function Sidebar() {
     <>
       <div className="flex flex-col gap-4 m-4 w-[240px]">
         <div>
-          <img src="./logo.jpg" alt="" />
+          <img src="./logo.png" alt="" />
         </div>
         <Link to={'/chat/db/new'}>
           <Button variant="contained" startIcon={<AddIcon />} className="w-full">

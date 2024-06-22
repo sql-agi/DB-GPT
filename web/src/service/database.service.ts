@@ -9,7 +9,7 @@ export class DatabaseService {
   readonly #urlPrefix = inject(URL_PREFIX_TOKEN);
   databaseList = new Signal.State<any[]>([]);
   #requestList() {
-    fetch(`${this.#urlPrefix}/database/list`, { method: 'get' })
+    fetch(`${this.#urlPrefix}database/list`, { method: 'get' })
       .then((res) => res.json())
       .then((value) => {
         this.databaseList.set(value);
@@ -23,22 +23,22 @@ export class DatabaseService {
   }
 
   getItem(id: number) {
-    return axios.get(`${this.#urlPrefix}/database/${id}`).then((item) => {
+    return axios.get(`${this.#urlPrefix}database/${id}`).then((item) => {
       return item.data;
     });
   }
   saveData(data: any) {
     if (typeof data.id !== 'undefined') {
-      return axios.put(`${this.#urlPrefix}/database/update/${data.id}`, data).then((value) => {
+      return axios.put(`${this.#urlPrefix}database/update/${data.id}`, data).then((value) => {
         this.#requestList();
       });
     }
-    return axios.post(`${this.#urlPrefix}/database/save`, data).then((value) => {
+    return axios.post(`${this.#urlPrefix}database/save`, data).then((value) => {
       this.#requestList();
     });
   }
   deleteItem(id: number) {
-    return axios.delete(`${this.#urlPrefix}/database/delete/${id}`).then((value) => {
+    return axios.delete(`${this.#urlPrefix}database/delete/${id}`).then((value) => {
       this.#requestList();
     });
   }

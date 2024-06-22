@@ -21,8 +21,6 @@ export function DatabaseEdit(inputs: { data: any; setDialogOpen: (value: boolean
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
   } = useForm<Inputs>({ defaultValues: inputs.data });
   let service = injector.get(DatabaseService);
   const onSubmit: SubmitHandler<Inputs> = (data) => {

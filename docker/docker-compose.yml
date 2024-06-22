@@ -81,6 +81,14 @@ services:
       - app_network
     command: ["/app/wait-for-it.sh", "mysql", "3306", "--", "/app/wait-for-it.sh", "mysql_secondary", "3306", "--", "python", "main.py"]
 
+  website:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    container_name: website
+    ports:
+      - '5173:80'
+
 volumes:
   mysql_data:
   mysql_secondary_data:
