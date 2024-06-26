@@ -9,7 +9,6 @@ from langchain.agents.agent import AgentExecutor
 from langchain.memory import ChatMessageHistory
 from langchain.memory import ConversationBufferMemory, ConversationBufferWindowMemory, ConversationSummaryBufferMemory
 from langchain.agents import create_openai_tools_agent, create_tool_calling_agent
-from utils import DatabaseUtil
 
 history = ChatMessageHistory(session_id="db-session")
 
