@@ -7,8 +7,9 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 from prompts.temple import DBExpert
 from langchain.agents.agent import AgentExecutor
 from langchain.memory import ChatMessageHistory
-from langchain.memory import ConversationBufferMemory
+from langchain.memory import ConversationBufferMemory, ConversationBufferWindowMemory, ConversationSummaryBufferMemory
 from langchain.agents import create_openai_tools_agent, create_tool_calling_agent
+from utils import DatabaseUtil
 
 history = ChatMessageHistory(session_id="db-session")
 
@@ -42,10 +43,10 @@ class DBExecutor:
         tools = self.toolkit.get_tools()
         if is_change:
             history.clear()
-        memory = ConversationBufferMemory(
-            memory_key="history", chat_memory=history, return_messages=True
+        memory = ConversationSummaryBufferMemory(
+            llm=self.llm, memory_key="history", chat_memory=history, return_messages=True, max_token_limit=600
         )
-        agent = create_tool_calling_agent(
+        agent = create_openai_tools_agent(
             self.llm, tools, prompt)
         agent_executor = AgentExecutor.from_agent_and_tools(
             agent=agent,

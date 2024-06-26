@@ -3,7 +3,7 @@ version: '3.8'
 services:
   mysql:
     image: mysql:8.0.33
-    container_name: mysql_db
+    container_name: app_builder
     environment:
       MYSQL_ROOT_PASSWORD: 'ls1234qwer'
       MYSQL_DATABASE: qianfan
@@ -11,8 +11,8 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql/mysql_data:/var/lib/mysql/
-      - ./mysql/conf/:/etc/mysql/conf.d/
-      - ./deploy/sql/init_third.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql/conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
+      - ./deploy/sql/init_qianfan.sql:/docker-entrypoint-initdb.d/init.sql
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
       --default-authentication-plugin=caching_sha2_password
@@ -51,7 +51,6 @@ services:
 
 volumes:
   mysql_data:
-  mysql_secondary_data:
 
 networks:
   app_network:

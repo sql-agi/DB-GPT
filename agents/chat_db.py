@@ -10,14 +10,13 @@ from .db_executor import DBExecutor
 from web.app.models import ChatDBRequest, AppBuilderRequest
 
 llm = ChatOpenAI(
-    model="gpt-4",
+    model="gpt-4o",
     temperature=0,
     # 将 seed 参数作为模型参数传递
     model_kwargs={
         "seed": 666
     }
 )
-
 
 class ChatDBAgent:
 
@@ -79,7 +78,7 @@ class ChatDBAgent:
     def db_gpt(cls, input: str) -> str:
         """
         处理输入字符串，并通过聊天代理生成响应。
-        此方法利用 ChatAgentManager 来执行查询并管理聊天历史，然后调用聊天代理
+        此方法利用 db_executor 来执行查询并管理聊天历史，然后调用聊天代理
         的 invoke 方法来处理输入，并生成输出。
         Args:
             input (str): 输入到聊天代理的字符串。
@@ -88,13 +87,9 @@ class ChatDBAgent:
             str: 聊天代理处理后的输出结果。
         该方法主要以接口的形式用户调用
         """
-        # 执行查询并管理聊天历史
-        chat_manager = ChatAgentManager(llm=llm)
-        agent_with_chat_history = chat_manager.execute_and_manage()
-
-        reply = agent_with_chat_history.invoke(
+        db_executor = cls.create_sql_executor()
+        reply = db_executor.invoke(
             {"input": input},
-            config={"configurable": {"session_id": "dbgpt-session"}},
         )
         output = reply['output']
         return output

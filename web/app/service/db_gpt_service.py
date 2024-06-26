@@ -25,7 +25,6 @@ class DBGptService:
         except Exception as e:
             raise HTTPException(status_code=500, detail=str(e))
 
-
     @classmethod
     async def chat_db_by_app_builder(cls, app_builder_request: AppBuilderRequest) -> str:
         """
@@ -40,8 +39,5 @@ class DBGptService:
         抛出:
             HTTPException: 如果在处理输入或生成回复的过程中发生异常，将返回状态码为500的HTTP异常，并包含异常的详细信息。
         """
-        try:
-            reply = ChatDBAgent.chat_db_by_app_builder(app_builder_request)
-            return reply
-        except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+        reply = ChatDBAgent.chat_db_by_app_builder(app_builder_request)
+        return reply

@@ -2,10 +2,10 @@ from fastapi import APIRouter, Request, HTTPException
 from web.app.service import DBGptService
 from typing import Dict
 from web.app.models import AppBuilderRequest
+import traceback
 
 # 获取配置中的logger对象
 from configs import log_config
-
 logger = log_config.logger
 
 router = APIRouter(
@@ -34,7 +34,10 @@ class DBGptRoute:
             reply = await DBGptService.db_gpt(body.get('input'))
             return {"reply": reply}
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            logger.error("chat/db出错: %s", str(e))
+            traceback_str = ''.join(traceback.format_tb(e.__traceback__))
+            logger.error("Traceback: %s", traceback_str)
+            raise HTTPException(status_code=500, detail=f"Exception: {e}, Traceback: {traceback_str}")
 
 
     @router.post("/db-appbuilder")
@@ -53,4 +56,7 @@ class DBGptRoute:
         try:
             return await DBGptService.chat_db_by_app_builder(app_builder_request)
         except Exception as e:
-            raise HTTPException(status_code=500, detail=str(e))
+            logger.error("chat/db-appbuilder出错: %s", str(e))
+            traceback_str = ''.join(traceback.format_tb(e.__traceback__))
+            logger.error("Traceback: %s", traceback_str)
+            raise HTTPException(status_code=500, detail=f"Exception: {e}, Traceback: {traceback_str}")

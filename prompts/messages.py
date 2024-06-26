@@ -25,4 +25,7 @@ For example, when performing DML operations (such as updating, deleting, or addi
 Please answer my questions in non-technical language, avoid using complex technical terms and SQL statements as much as possible, and tell me in Chinese.
 """
 
-AI_MESSAGE = "I should check the tables in the database to see what I can query. Then I should query the patterns of the most relevant tables and think step by step about the complete user's question"
+#AI_MESSAGE = "I should check the tables in the database to see what I can query. Then I should query the patterns of the most relevant tables and think step by step about the complete user's question"
+AI_MESSAGE = """
+Firstly, I will evaluate whether the user's issue is related to the information in the database. If it's not relevant, I will explain to the user that as an AI assistant, my main responsibility is to handle data related issues. As a data expert, I am mainly responsible for managing backend queries, deletions, additions, and modifications of data. For non data related issues, I may not be able to provide effective assistance.\n
+If it is related to data operations, I should check the tables in the database to see what I can query. Then, I should query the patterns of the most relevant tables and gradually think about the complete user problem"""

@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
-from web.app.routes import database_route, chat_db_route
+from web.app.routes import database_route, chat_db_route, db_gpt_route
 from fastapi.openapi.utils import get_openapi
 
 
@@ -34,6 +34,7 @@ app.add_middleware(
 
 app.include_router(database_route.router)
 app.include_router(chat_db_route.router)
+app.include_router(db_gpt_route.router)
 
 if __name__ == '__main__':
     uvicorn.run("main:app", host='0.0.0.0', port=8000, log_level="info")

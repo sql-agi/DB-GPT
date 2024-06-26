@@ -8,7 +8,7 @@ from agents import ChatDBAgent
 def predict(message, history):
     """后续会重构，过渡阶段"""
     print(message)
-    response = ChatDBAgent.cli_chat_db(message)
+    response = ChatDBAgent.db_gpt(message)
     partial_message = ""
     print(response)
     for chunk in response:
@@ -19,7 +19,7 @@ def predict(message, history):
 
 gr.ChatInterface(
     predict,
-    title="CHAT_DB",
-    description="Ask DB_BOT any question",
+    title="校园智能管理助手",
+    description="Ask Campus Intelligent Management Assistant any question",
     theme="soft"
-    ).launch()
+    ).launch(server_name="0.0.0.0", server_port=7860)
