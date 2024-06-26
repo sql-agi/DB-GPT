@@ -11,7 +11,6 @@ services:
       - "3306:3306"
     volumes:
       - ./mysql/mysql_data:/var/lib/mysql/
-      - ./mysql/conf/mysqld.cnf:/etc/mysql/conf.d/mysqld.cnf
       - ./deploy/sql/init_qianfan.sql:/docker-entrypoint-initdb.d/init.sql
     command:
       # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
