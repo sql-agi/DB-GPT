@@ -14,8 +14,12 @@
 }
 body {
   scrollbar-color: transparent;
-
 }
 .custom-scrollbar {
   scrollbar-width: thin !important;
+}
+.chat-size {
+  margin: auto;
+  max-width: max(80%, 800px);
+  width: 100%;
 }

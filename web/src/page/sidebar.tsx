@@ -22,7 +22,7 @@ export function Sidebar() {
         <div>
           <img src="./logo.png" alt="" />
         </div>
-        <Link to={'/chat/db/new'}>
+        <Link to={'/'}>
           <Button variant="contained" startIcon={<AddIcon />} className="w-full">
             创建会话
           </Button>

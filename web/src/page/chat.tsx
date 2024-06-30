@@ -18,7 +18,7 @@ import Avatar from '@mui/material/Avatar';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import PrecisionManufacturingIcon from '@mui/icons-material/PrecisionManufacturing';
 import remarkGfm from 'remark-gfm';
-import { OutlinedInput } from '@mui/material';
+import { OutlinedInput, Paper } from '@mui/material';
 
 export function UserChat(item: any) {
   return (
@@ -75,8 +75,9 @@ export function Chat() {
       if (params.id === 'new') {
         await chatService.saveSession({ input: data.input, model: modelValue, database_id: databaseValue }).then((v) => {
           id = v.data;
+          navigate(`../${id}`, { relative: 'path', replace: true });
         });
-        chatService.initList()
+        chatService.initList();
       }
 
       chatService.sessionHistory.set([
@@ -102,9 +103,9 @@ export function Chat() {
 
   return (
     <>
-      <div className="flex flex-col h-full gap-4 overflow-hidden">
-        <div className="flex gap-4 justify-center mt-2">
-          <FormControl>
+      <div className="flex flex-col h-full gap-4">
+        <div className="flex gap-4 justify-center mt-2 chat-size">
+          <FormControl size="small">
             <InputLabel>选择模型</InputLabel>
             <Select
               className="w-[200px]"
@@ -126,7 +127,7 @@ export function Chat() {
               )}
             </Select>
           </FormControl>
-          <FormControl>
+          <FormControl size="small">
             <InputLabel>选择数据库连接</InputLabel>
 
             <Select
@@ -161,28 +162,31 @@ export function Chat() {
             </Select>
           </FormControl>
         </div>
-        <div className="flex-1 overflow-auto custom-scrollbar ">
+        <div className="flex-1 overflow-auto custom-scrollbar chat-size">
           {historyList.map((item, index) => {
             return (
               <div key={index}>{item.message_type === 'user' ? <UserChat {...item}></UserChat> : <SystemChat {...item}></SystemChat>}</div>
             );
           })}
         </div>
-        <div>
-          <form onSubmit={handleSubmit(onSubmit)} className="px-[20%]">
-            <FormControl variant="outlined" className="w-full">
-              <OutlinedInput
-                {...register('input', { required: true })}
-                placeholder="请输入一条消息"
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton type="submit">
-                      <SendIcon />
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
+        <div className="chat-size pb-[36px]">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Paper elevation={2} className="!bg-transparent">
+              <FormControl variant="outlined" className="w-full">
+                <OutlinedInput
+                  {...register('input', { required: true })}
+                  placeholder="请输入一条消息"
+                  autoComplete="off"
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton type="submit">
+                        <SendIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+            </Paper>
           </form>
         </div>
       </div>
